@@ -297,9 +297,8 @@ class LocalStore:
     def __init__(self, page: ft.Page):
         self._page = page
         self._memory: dict[str, str] = {}
-        self._backend = getattr(page, "shared_preferences", None) or getattr(
-            page, "client_storage", None
-        )
+        self._backend = ft.SharedPreferences()
+        self._page.services.append(self._backend)
 
     async def _get_raw(self, key: str) -> Optional[str]:
         if self._backend is not None:
@@ -906,6 +905,7 @@ class MedicineApp:
         self.page.fonts = {
             "Roboto": "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap"
         }
+        self.page.window.icon = "assets/icon.ico"
 
     async def _bootstrap(self) -> None:
         """Carica preferiti/cronologia/tema salvati, poi disegna l'interfaccia."""

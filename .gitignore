@@ -172,3 +172,4 @@ cython_debug/
 
 *.pdf
 *.json
+.DS_Store
